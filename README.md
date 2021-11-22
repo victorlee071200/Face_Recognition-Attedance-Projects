@@ -44,7 +44,7 @@ Install the YOLO weight from this [google shared link](https://drive.google.com/
 1. Clone this repository
 
    ```sh
-   git clone https://github.com/Laikokwui/is-auto-social-distance-system.git
+   git clone https://github.com/victorlee071200/Face_Recognition-Attedance-Projects.git
    ```
 
 2. Install all the required module with pip
