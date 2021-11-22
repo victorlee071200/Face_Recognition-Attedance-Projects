@@ -24,7 +24,7 @@ Frontend
 
 Backend
 
-- [YOLOv4](https://github.com/AlexeyAB)
+- [Tensorflow](https://www.tensorflow.org/)
 - [OpenCV](https://opencv.org/)
 
 <!-- GETTING STARTED -->
@@ -35,7 +35,7 @@ Please follow all the steps to get started
 
 ### Prerequisites
 
-Install the YOLO weight from this [google shared link](https://drive.google.com/file/d/12hbzxud9DuafHpNxQaYrxN3YEOriV-kU/view?usp=sharing) and placed it into yolo-coco folder as shown:
+Install the YOLO weight from this [google shared link](https://drive.google.com/file/d/1Tehk8ke9KuT5o7cZP_vDA7SxdhqTumIx/view?usp=sharing) and placed it into yolo-coco folder as shown:
 
 ![][yolo-coco]
 
