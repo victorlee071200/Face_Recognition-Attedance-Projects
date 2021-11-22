@@ -1,21 +1,17 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="#">
     <img src="github_images/logo.png" alt="Logo" width="200" height="200">
   </a>
-  <h3 align="center">Real-Time Social Distance Monitoring System</h3>
+  <h3 align="center">Face Recognition Attendance System</h3>
   <p align="center">
-    By Team AI4Life
+    By Group 3
     
   </p>
 </p>
 
 <!-- ABOUT THE PROJECT -->
-
-## Algorithms/Languages Used
-
-YOLO on the other hand, stands for You Only Looks Once is an efficient and optimised object detection algorithm that fused several processes of object detection into one neural network for both classification and prediction of bounding boxes for detected objects to allow a faster object detection processes. OpenCV on the other hand is mainly used for processing the images or videos input to ease and allow the object detection alogorithm to work correctly.
 
 ## Built With
 
@@ -25,7 +21,7 @@ Frontend
 
 Backend
 
-- [YOLOv4](https://github.com/AlexeyAB)
+- [Tensorflow](https://www.tensorflow.org/)
 - [OpenCV](https://opencv.org/)
 
 <!-- GETTING STARTED -->
@@ -36,7 +32,7 @@ Please follow all the steps to get started
 
 ### Prerequisites
 
-Install the YOLO weight from this [google shared link](https://drive.google.com/file/d/12hbzxud9DuafHpNxQaYrxN3YEOriV-kU/view?usp=sharing) and placed it into yolo-coco folder as shown:
+Install the YOLO weight from this [google shared link](https://drive.google.com/file/d/1Tehk8ke9KuT5o7cZP_vDA7SxdhqTumIx/view?usp=sharing) and placed it into yolo-coco folder as shown:
 
 ![][yolo-coco]
 
@@ -45,7 +41,7 @@ Install the YOLO weight from this [google shared link](https://drive.google.com/
 1. Clone this repository
 
    ```sh
-   git clone https://github.com/Laikokwui/is-auto-social-distance-system.git
+   git clone https://github.com/victorlee071200/Face_Recognition-Attedance-Projects.git
    ```
 
 2. Install all the required module with pip
