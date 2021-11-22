@@ -1,0 +1,7 @@
+tensorflow
+streamlit
+opencv-python
+pillow
+pandas
+numpy
+uuid
