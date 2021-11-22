@@ -32,9 +32,7 @@ Please follow all the steps to get started
 
 ### Prerequisites
 
-Install the YOLO weight from this [google shared link](https://drive.google.com/file/d/1Tehk8ke9KuT5o7cZP_vDA7SxdhqTumIx/view?usp=sharing) and placed it into yolo-coco folder as shown:
-
-![][yolo-coco]
+Install the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1Tehk8ke9KuT5o7cZP_vDA7SxdhqTumIx/view?usp=sharing) and placed it into directory folder
 
 ### Steps
 
