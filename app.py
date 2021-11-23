@@ -6,14 +6,12 @@ import pandas as pd
 import tensorflow as tf
 from layers import L1Dist
 import numpy as np
+import datetime
 import time
 # Import uuid library to generate unique image names
 import uuid
-
-# DB
-import sqlite3
-conn = sqlite3.connect('data.db')
-c = conn.cursor()
+from csv import DictWriter
+import csv
 
 
 @st.cache
@@ -92,41 +90,88 @@ def main():
             st.success('Done!')
 
         st.subheader('Step 3')
-        verify_btn = st.button("Verify")
+        step_3(model, detection_threshold, verification_threshold)
 
-        if verify_btn:
+
+def verification(model, detection_threshold, verification_threshold):
+    results = []
+    for image in os.listdir(os.path.join('application_data', 'verification_images')):
+        input_img = preprocess(os.path.join(
+            'application_data', 'input_image', 'input_image.jpg'))
+        validation_img = preprocess(os.path.join(
+            'application_data', 'verification_images', image))
+
+        # Make Predictions
+        result = model.predict(
+            list(np.expand_dims([input_img, validation_img], axis=1)))
+        results.append(result)
+
+    # Detection Threshold: Metric above which a prediciton is considered positive
+    detection = np.sum(np.array(results) > detection_threshold)
+
+    # Verification Threshold: Proportion of positive predictions / total positive samples
+    verification = detection / \
+        len(os.listdir(os.path.join(
+            'application_data', 'verification_images')))
+    verified = verification > verification_threshold
+
+    st.text(
+        f"Result of comparison with faces registered in database: {results}")
+    st.text(f"Number of predictions: {detection}")
+    st.text(f"Verification score: {verification}")
+    st.text(f"Verification result: {verified}")
+    st.text('Verified' if verified == True else 'Unverified')
+
+    return verified
+
+
+def step_3(model, detection_threshold, verification_threshold):
+
+    username = st.text_input("Enter you name")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        clockIn_btn = st.button("Clock In")
+        if clockIn_btn:
             with st.spinner('Verifying...'):
-                results = []
-                for image in os.listdir(os.path.join('application_data', 'verification_images')):
-                    input_img = preprocess(os.path.join(
-                        'application_data', 'input_image', 'input_image.jpg'))
-                    validation_img = preprocess(os.path.join(
-                        'application_data', 'verification_images', image))
+                verified = verification(
+                    model, detection_threshold, verification_threshold)
+                if verified == True:
+                    clocking(username, "Clocked In")
+                    st.success(f"{username} Clocked In")
+                else:
+                    st.warning('User is not verified')
 
-                    # Make Predictions
-                    result = model.predict(
-                        list(np.expand_dims([input_img, validation_img], axis=1)))
-                    results.append(result)
+            st.success(f"Done!")
 
-                # Detection Threshold: Metric above which a prediciton is considered positive
-                detection = np.sum(np.array(results) > detection_threshold)
+    with col2:
+        clockOut_btn = st.button("Clock Out")
+        if clockOut_btn:
+            with st.spinner('Verifying...'):
+                verified = verification(
+                    model, detection_threshold, verification_threshold)
+                if verified == True:
+                    clocking(username, "Clocked Out")
+                    st.success(f"{username} Clocked Out")
+                else:
+                    st.warning('User is not verified')
+            st.success(f"Done!")
 
-                # Verification Threshold: Proportion of positive predictions / total positive samples
-                verification = detection / \
-                    len(os.listdir(os.path.join(
-                        'application_data', 'verification_images')))
-                verified = verification > verification_threshold
 
-                st.text(results)
-                st.text(detection)
-                st.text(verification)
-                st.text(verified)
-                st.text('Verified' if verified == True else 'Unverified')
+def clocking(username, mode):
 
-            st.success('Done!')
+    currentDate = datetime.date.today()
+    currentTime_in = datetime.datetime.now().time()
+    fieldNames = ["Name", "Date", "Time", "Mode"]
 
+    with open('data.csv', 'a', newline='') as Clock:
+        Clockin_writer = csv.writer(Clock)
+        #Clockin_writer.writerow({"Name":username, "Date":currentDate, "Time":currentTime_in, "Mode":mode})
+        Clockin_writer.writerow([username, currentDate, currentTime_in, mode])
 
 # Load image from file and convert to 105x105 pixel
+
+
 def preprocess(file_path):
 
     # Read in image from file path
