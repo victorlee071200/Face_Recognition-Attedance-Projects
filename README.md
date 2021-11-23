@@ -32,7 +32,7 @@ Please follow all the steps to get started
 
 ### Prerequisites
 
-Install the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1Tehk8ke9KuT5o7cZP_vDA7SxdhqTumIx/view?usp=sharing) and placed it into directory folder
+Install the model.h5 weight from this [google shared link](https://drive.google.com/file/d/1TrvbBRyA6FCcVmuqa70kxyFedGwdqe20/view?usp=sharing) and placed it into directory folder
 
 ### Steps
 
