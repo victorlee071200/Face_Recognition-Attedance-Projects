@@ -21,12 +21,9 @@ def load_image(image_file):
 
 
 def main():
-    f = open("data.csv", "w")
-    f.truncate()
-    f.close()
 
     sidebar = st.sidebar.selectbox(
-        'Choose one of the following', ('Welcome', 'Face Recognition'))
+        'Choose one of the following', ('Welcome', 'Step 1: Register as new user', 'Step 2: Capture Input Images', 'Step 3: Face Recognition'))
 
     # load the model
     model = tf.keras.models.load_model(
@@ -39,30 +36,19 @@ def main():
         st.subheader('Team members:')
         st.text('1. Clement Goh Yung Jing (101218668) \n2. Lee Zhe Sheng (10215371)\n3. Cheryl Tan Shen Wey (101222753) \n4. Vibatha Naveen Jayakody Jayakody Arachcilage (101232163)')
 
-    if sidebar == 'Face Recognition':
-        st.title("Face Recognition (Web Cam)")
+    if sidebar == 'Step 1: Register as new user':
 
-        # Slider for threshold
-        # Detection Threshold
-        st.subheader('Detection Threshold')
-        detection_threshold = st.slider(
-            'Try out threshold between 0-1', value=0.50)
-        st.write("Detection Threshold:", detection_threshold)
+        st.title('Register as new user')
 
-        # Verification Threshold
-        st.subheader('Verification Threshold')
-        verification_threshold = st.slider(
-            'Try out threshold between 0-1', value=0.59)
-        st.write("Verification Threshold:", verification_threshold)
+        st.text(
+            'Its good to have at least 5 images for initialising your identity.')
+        register_btn = st.button('Register as new user')
 
         st.caption('Please check the checkbox below for web cam previewing')
 
         run = st.checkbox('Webcam Preview')
 
         webcam_preview(run)
-
-        st.subheader('Step 1')
-        register_btn = st.button('Register as new user')
 
         if register_btn:
             with st.spinner('Registering...'):
@@ -73,24 +59,51 @@ def main():
                     REGISTER_PATH, '{}.jpg'.format(uuid.uuid1()))
                 ret, frame = camera.read()
                 cv2.imwrite(REGISTER_PATH2, frame)
+
+                st.image(REGISTER_PATH2)
+
             st.success('Register Successfully!')
 
-        st.subheader('Step 2')
-        capture_btn = st.button("Capture your face")
+    if sidebar == 'Step 2: Capture Input Images':
+        st.title('Capture Input Image')
+
+        st.caption('Press the button again to capture again')
+        capture_btn = st.button('Capture Input Image')
 
         if capture_btn:
-            with st.spinner('Capturing...'):
-                camera = cv2.VideoCapture(0)
-                SAVE_PATH = os.path.join(
-                    'application_data', 'input_image', 'input_image.jpg')
-                ret, frame = camera.read()
-                cv2.imwrite(SAVE_PATH, frame)
-                st.image('application_data/input_image/input_image.jpg',
-                         use_column_width=True)
-            st.success('Done!')
+            capture_input()
+
+    if sidebar == 'Step 3: Face Recognition':
+
+        st.title("Face Recognition (Web Cam)")
+
+        # Slider for threshold
+        # Detection Threshold
+        st.subheader('Detection Threshold')
+        detection_threshold = st.slider(
+            'Try out threshold between 0-1', value=0.53)
+        st.write("Detection Threshold:", detection_threshold)
+
+        # Verification Threshold
+        st.subheader('Verification Threshold')
+        verification_threshold = st.slider(
+            'Try out threshold between 0-1', value=0.59)
+        st.write("Verification Threshold:", verification_threshold)
 
         st.subheader('Step 3')
         step_3(model, detection_threshold, verification_threshold)
+
+
+def capture_input():
+    with st.spinner('Capturing...'):
+        camera = cv2.VideoCapture(0)
+        SAVE_PATH = os.path.join(
+            'application_data', 'input_image', 'input_image.jpg')
+        ret, frame = camera.read()
+        cv2.imwrite(SAVE_PATH, frame)
+        st.image('application_data/input_image/input_image.jpg',
+                 use_column_width=True)
+    st.success('Done!')
 
 
 def verification(model, detection_threshold, verification_threshold):
@@ -116,7 +129,7 @@ def verification(model, detection_threshold, verification_threshold):
     verified = verification > verification_threshold
 
     st.text(
-        f"Result of comparison with faces registered in database: {results}")
+        f"Result of comparison with \nfaces registered in database: {results}")
     st.text(f"Number of predictions: {detection}")
     st.text(f"Verification score: {verification}")
     st.text(f"Verification result: {verified}")
